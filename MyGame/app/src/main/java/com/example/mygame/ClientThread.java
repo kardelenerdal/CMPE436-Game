@@ -7,12 +7,12 @@ import java.io.InputStreamReader;
 import java.net.Socket;
 
 public class ClientThread implements Runnable {
-    //static String hostname = "18.204.213.255";
-    static String hostname = "192.168.17.1";
+    static String hostname = "18.204.213.255";
+    //static String hostname = "192.168.17.1";
     static int port = 8080;
     static String test = "3#route:test;name:Kardelen;surname:Erdal;";
     private NBR message;
-    private volatile String response;
+    private volatile String response = "";
 
     public ClientThread(NBR message) {
         this.message = message;
