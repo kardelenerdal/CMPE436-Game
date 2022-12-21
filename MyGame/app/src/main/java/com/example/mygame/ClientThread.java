@@ -11,7 +11,6 @@ public class ClientThread implements Runnable {
     static String hostname = "18.204.213.255";
     //static String hostname = "192.168.17.1";
     static int port = 8080;
-    static String test = "3#route:test;name:Kardelen;surname:Erdal;";
     private NBR message;
     private String response = "";
 
@@ -28,8 +27,6 @@ public class ClientThread implements Runnable {
             out.writeBytes(message.toString());
             BufferedReader in = new BufferedReader(new InputStreamReader(s.getInputStream()));
             String line = "";
-            System.out.println("cevap gelicek");
-
             while ((line = in.readLine()) != null) {
                 System.out.println(line + "KARDELENNNNNNNN");
                 response = response.concat(line);

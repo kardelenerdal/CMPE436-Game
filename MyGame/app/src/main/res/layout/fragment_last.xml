@@ -5,42 +5,35 @@
     android:id="@+id/frameLayout2"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#E3BF86"
+    android:background="#BC86E3"
     tools:context=".LastFragment">
 
     <TextView
         android:id="@+id/textView2"
-        android:layout_width="346dp"
-        android:layout_height="152dp"
-        android:layout_marginTop="336dp"
-        android:backgroundTint="?android:attr/textColorSecondary"
+        android:layout_width="344dp"
+        android:layout_height="200dp"
         android:fontFamily="monospace"
         android:text="You Lost! \n Game Over..."
         android:textAlignment="center"
-        android:textColor="@color/teal_700"
+        android:textColor="@color/purple_700"
         android:textSize="34sp"
         android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.422"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <androidx.appcompat.widget.AppCompatButton
-
-        android:id="@+id/button"
-        android:layout_width="80dp"
-        android:layout_height="80dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="361dp"
-        android:layout_marginBottom="102dp"
+    <Button
+        android:id="@+id/homeButton"
+        android:layout_width="113dp"
+        android:layout_height="96dp"
         android:background="@drawable/ic_home_black_24dp"
-        android:backgroundTint="@android:color/system_accent1_700"
-        app:layout_constraintBottom_toTopOf="@+id/textView2"
+        android:textColor="@color/purple_200"
+        android:onClick="goBackHome"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.173" />
+        app:layout_constraintVertical_bias="0.705" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

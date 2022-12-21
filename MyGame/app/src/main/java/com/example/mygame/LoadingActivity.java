@@ -3,7 +3,6 @@ package com.example.mygame;
 import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -20,7 +19,6 @@ public class LoadingActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.fragment_loading);
         if (savedInstanceState == null) {
-            // call HTTP request
             Bundle extras = getIntent().getExtras();
             if (extras != null) {
                 game_id = extras.getString("game_id");
@@ -30,12 +28,12 @@ public class LoadingActivity extends AppCompatActivity {
             while (!twoPlayers) {
                 String game_state = checkIfTwoPlayers(game_id);
                 System.out.println(game_state);
-                if (!game_state.equals("WAIT")) {
+                if (game_state != null && !game_state.equals("WAIT")) {
                     twoPlayers = true;
                     changeToGameActivity();
                 }
                 try {
-                    Thread.sleep(2000);
+                    Thread.sleep(1000);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
@@ -64,7 +62,6 @@ public class LoadingActivity extends AppCompatActivity {
         }
         try {
             response.get("error");
-            popupMessage(response.get("error"));
         } catch (Exception ignored) {
 
         }

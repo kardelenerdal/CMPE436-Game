@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -11,6 +12,11 @@ import androidx.appcompat.app.AppCompatActivity;
 public class GameActivity extends AppCompatActivity {
 
     int gun = 0;
+    Button reload;
+    Button block;
+    Button shoot;
+    Button rifle;
+    Button bazooka;
     TextView nofGuns;
     TextView opponentName;
     TextView round;
@@ -27,11 +33,24 @@ public class GameActivity extends AppCompatActivity {
         opponentName = (TextView) findViewById(R.id.nameOfOpponent);
         round = (TextView) findViewById(R.id.round);
         opponentAction = (TextView) findViewById(R.id.opponentAction);
+        reload = (Button) findViewById(R.id.reloadButton);
+        block = (Button) findViewById(R.id.blockButton);
+        shoot = (Button) findViewById(R.id.shootButton);
+        rifle = (Button) findViewById(R.id.riffleButton);
+        bazooka = (Button) findViewById(R.id.bazookaButton);
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
             game_id = extras.getString("game_id");
             player_id = extras.getString("player_id");
             myNumber = extras.getString("myNumber");
+        }
+        // write opponent's name
+        try {
+            NBR firstState = getGameState();
+            String oppName = "Name of your opponent: " + firstState.get("name" + (myNumber.equals("1") ? "2" : "1"));
+            opponentName.setText(oppName);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
         }
     }
 
@@ -43,6 +62,15 @@ public class GameActivity extends AppCompatActivity {
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
         alertDialogBuilder.setMessage("You don't have enough guns.");
         alertDialogBuilder.setTitle("You can't " + action + "!");
+        alertDialogBuilder.setNegativeButton("ok", (dialogInterface, i) -> {
+        });
+        AlertDialog alertDialog = alertDialogBuilder.create();
+        alertDialog.show();
+    }
+
+    public void popupAgain() {
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
+        alertDialogBuilder.setTitle("Please press again");
         alertDialogBuilder.setNegativeButton("ok", (dialogInterface, i) -> {
         });
         AlertDialog alertDialog = alertDialogBuilder.create();
@@ -108,13 +136,18 @@ public class GameActivity extends AppCompatActivity {
         return clientThread.getResponse();
     }
 
-    public void doAction(String action) throws InterruptedException {
+    public NBR prepareNBR(String action) {
         NBR message = new NBR();
         message.put("route", "game.action");
         message.put("player_id", player_id);
         message.put("game_id", game_id);
         message.put("action", action);
         message.put("bullet_amount", String.valueOf(gun));
+        return message;
+    }
+
+    public void doAction(String action) throws InterruptedException {
+        NBR message = prepareNBR(action);
         String response = sendMessageToServer(message);
         NBR responseNBR = NBR.parseString(response);
         System.out.println("Response: " + response);
@@ -123,9 +156,6 @@ public class GameActivity extends AppCompatActivity {
             NBR gameState;
             while (true) {
                 gameState = getGameState();
-                // write opponent name
-                String oppName = "Name of your opponent: " + gameState.get("name" + (myNumber.equals("1") ? "2" : "1"));
-                opponentName.setText(oppName);
                 if (gameState.get("error") != null || gameState.get("state").equals("WAIT")) {
                     Thread.sleep(1000);
                 } else {
@@ -149,8 +179,9 @@ public class GameActivity extends AppCompatActivity {
                     startActivity(new Intent(GameActivity.this, WinActivity.class));
                 }
             }
+        } else {
+            popupAgain();
         }
-
     }
 
 }

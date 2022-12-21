@@ -25,6 +25,9 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void startGame(View view) throws InterruptedException {
+        if (Objects.equals(player_id, "")) {
+            popupMessage("You should add a player first!!!!!");
+        }
         myNumber = "1";
         String messageToSend = "2#route:game.start;player_id:" + player_id + ";";
         System.out.println(messageToSend);
@@ -39,7 +42,7 @@ public class MainActivity extends AppCompatActivity {
 
         AlertDialog dialog = new AlertDialog.Builder(this).create();
         dialog.setMessage("Your key is " + key + ". Your game id is " + game_id);
-        dialog.setButton(DialogInterface.BUTTON_POSITIVE, "Yes", (dialog1, which) -> {
+        dialog.setButton(DialogInterface.BUTTON_POSITIVE, "Got It", (dialog1, which) -> {
             Intent intent = new Intent(MainActivity.this, LoadingActivity.class);
             intent.putExtra("myNumber", myNumber);
             intent.putExtra("game_id", game_id);
@@ -47,14 +50,12 @@ public class MainActivity extends AppCompatActivity {
             startActivity(intent);
         });
         dialog.show();
-
-        //  popupMessage("Your key is " + key + ". Your game id is " + game_id);
-        //  Intent i = new Intent(MainActivity.this, LoadingActivity.class);
-        //  i.putExtra("game_id",game_id);
-        //  startActivity(i);
     }
 
     public void enterGame(View view) throws InterruptedException {
+        if (Objects.equals(player_id, "")) {
+            popupMessage("You should add a player first!!!!!");
+        }
         myNumber = "2";
         TextInputEditText inputGameCode = findViewById(R.id.inputGameCode);
         if (inputGameCode.getText().toString().isEmpty()) {
