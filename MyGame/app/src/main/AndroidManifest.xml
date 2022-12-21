@@ -37,6 +37,16 @@
             android:exported="true"
             android:label="MyGame">
         </activity>
+        <activity
+            android:name=".WinActivity"
+            android:exported="true"
+            android:label="MyGame">
+        </activity>
+        <activity
+            android:name=".LostActivity"
+            android:exported="true"
+            android:label="MyGame">
+        </activity>
     </application>
 
 </manifest>

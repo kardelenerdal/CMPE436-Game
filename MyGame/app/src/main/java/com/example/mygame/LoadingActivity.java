@@ -12,6 +12,8 @@ public class LoadingActivity extends AppCompatActivity {
     private boolean twoPlayers = false;
     public String state;
     public String game_id;
+    public String player_id;
+    public String myNumber;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -22,6 +24,8 @@ public class LoadingActivity extends AppCompatActivity {
             Bundle extras = getIntent().getExtras();
             if (extras != null) {
                 game_id = extras.getString("game_id");
+                player_id = extras.getString("player_id");
+                myNumber = extras.getString("myNumber");
             }
             while (!twoPlayers) {
                 String game_state = checkIfTwoPlayers(game_id);
@@ -69,7 +73,11 @@ public class LoadingActivity extends AppCompatActivity {
     }
 
     public void changeToGameActivity() {
-        startActivity(new Intent(LoadingActivity.this, GameActivity.class));
+        Intent intent = new Intent(LoadingActivity.this, GameActivity.class);
+        intent.putExtra("myNumber", myNumber);
+        intent.putExtra("game_id", game_id);
+        intent.putExtra("player_id", player_id);
+        startActivity(intent);
     }
 
     public void popupMessage(String message) {

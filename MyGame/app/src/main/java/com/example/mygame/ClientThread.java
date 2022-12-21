@@ -5,6 +5,7 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.Socket;
+import java.net.SocketException;
 
 public class ClientThread implements Runnable {
     static String hostname = "18.204.213.255";
@@ -12,7 +13,7 @@ public class ClientThread implements Runnable {
     static int port = 8080;
     static String test = "3#route:test;name:Kardelen;surname:Erdal;";
     private NBR message;
-    private volatile String response = "";
+    private String response = "";
 
     public ClientThread(NBR message) {
         this.message = message;
@@ -28,10 +29,13 @@ public class ClientThread implements Runnable {
             BufferedReader in = new BufferedReader(new InputStreamReader(s.getInputStream()));
             String line = "";
             System.out.println("cevap gelicek");
+
             while ((line = in.readLine()) != null) {
                 System.out.println(line + "KARDELENNNNNNNN");
-                response += line;
+                response = response.concat(line);
             }
+        } catch (SocketException e) {
+            response = "1#error:socketError;";
         } catch (IOException e) {
             e.printStackTrace();
         }

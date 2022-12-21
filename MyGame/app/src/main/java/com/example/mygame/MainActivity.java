@@ -16,6 +16,7 @@ public class MainActivity extends AppCompatActivity {
     public String player_id;
     public String game_id;
     public String key;
+    public String myNumber;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,6 +25,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void startGame(View view) throws InterruptedException {
+        myNumber = "1";
         String messageToSend = "2#route:game.start;player_id:" + player_id + ";";
         System.out.println(messageToSend);
         NBR messageToSendNBR = NBR.parseString(messageToSend);
@@ -39,7 +41,9 @@ public class MainActivity extends AppCompatActivity {
         dialog.setMessage("Your key is " + key + ". Your game id is " + game_id);
         dialog.setButton(DialogInterface.BUTTON_POSITIVE, "Yes", (dialog1, which) -> {
             Intent intent = new Intent(MainActivity.this, LoadingActivity.class);
+            intent.putExtra("myNumber", myNumber);
             intent.putExtra("game_id", game_id);
+            intent.putExtra("player_id", player_id);
             startActivity(intent);
         });
         dialog.show();
@@ -51,6 +55,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void enterGame(View view) throws InterruptedException {
+        myNumber = "2";
         TextInputEditText inputGameCode = findViewById(R.id.inputGameCode);
         if (inputGameCode.getText().toString().isEmpty()) {
             popupMessage("Enter game code!!!!!");
@@ -65,7 +70,11 @@ public class MainActivity extends AppCompatActivity {
         cThread.join();
         NBR response = NBR.parseString(clientThread.getResponse());
         game_id = response.get("game_id");
-        startActivity(new Intent(MainActivity.this, GameActivity.class));
+        Intent intent = new Intent(MainActivity.this, GameActivity.class);
+        intent.putExtra("myNumber", myNumber);
+        intent.putExtra("game_id", game_id);
+        intent.putExtra("player_id", player_id);
+        startActivity(intent);
     }
 
     public void addPlayer(View view) throws InterruptedException {
